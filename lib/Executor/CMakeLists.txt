@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 3.0)
 
 if (${WIN32})
     # /Gz flag forses the compiler to use _stdcall calling convention as required by Win32 API as opposed to the default _cdecl
@@ -36,6 +36,7 @@ include_directories (
   "${PROJECT_SOURCE_DIR}/include"
   "${JNI_INCLUDE_DIRS}")
 
+set(CMAKE_MACOSX_RPATH 1)
 set (SOURCES
   src/Core.cpp
   src/Device.cpp

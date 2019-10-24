@@ -6,8 +6,8 @@ import ir.ast.Lambda
 
 import scala.collection.immutable.ListMap
 import scala.language.implicitConversions
-import scala.util.parsing.json._
 import java.io._
+import play.api.libs.json._
 
 import scala.io._
 import opencl.executor.Compile
@@ -128,7 +128,7 @@ object OutputKernelJSON {
     val privateNameParams = getPrivateParamsList(params)
     // map variable names to sizes
     val lmPSizes = getParamSizeMap(params)
-    var lm = ListMap[String,JSONObject]()
+    var lm = ListMap[String, JsValue]()
 
     // pull out values from kernel string to get c types
     val kernelStr = source.split("\n").filter(x => x.contains("kernel"))
@@ -136,24 +136,23 @@ object OutputKernelJSON {
 
     // get size values (ints)
     val lmS = getSizeKernelValuesMap(parameters,lmPSizes,toStrip)//ListMap[String,String]()
-
     // get parameter values
     val lmP = getParameterKernelValuesMap(parameters,lmPSizes,privateNameParams)
-
     // get output value
     val lmO = getOutputKernelValuesMap(parameters,lmPSizes,privateNameParams)
-
     // get temp buffer values
     val lmTB = getTempBufferKernelValuesMap(parameters,lmPSizes,privateNameParams,toStrip)
 
+
+
     // converge to megamap
-    lm+=("parameters" -> JSONObject(lmP))
-    lm+=("outputs" -> JSONObject(lmO))
-    lm+=("temporary buffers" -> JSONObject(lmTB))
-    lm+=("sizes" -> JSONObject(lmS))
+    lm+=("parameters" -> Json.toJson(lmP))
+    lm+=("outputs" -> Json.toJson(lmO))
+    lm+=("temporary buffers" -> Json.toJson(lmTB))
+    lm+=("sizes" -> Json.toJson(lmS))
 
     // convert megamap json object
-    JSONObject(lm).toString()
+    Json.stringify(Json.toJson(lm))
   }
 
 }

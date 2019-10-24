@@ -1,0 +1,381 @@
+
+hebe@hebes-mbp:~/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift$ sbt compile
+[info] Loading global plugins from /Users/hebe/.sbt/0.13/plugins
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by sbt.ivyint.ErrorMessageAuthenticator$ (file:/Users/hebe/.sbt/boot/scala-2.10.7/org.scala-sbt/sbt/0.13.17/ivy-0.13.17.jar) to field java.net.Authenticator.theAuthenticator
+WARNING: Please consider reporting this to the maintainers of sbt.ivyint.ErrorMessageAuthenticator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/project
+error: error while loading String, class file '/Library/Java/JavaVirtualMachines/openjdk-12.0.2.jdk/Contents/Home(java/lang/String.class)' is broken
+(class java.lang.NullPointerException/null)
+/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/build.sbt:36: warning: `<<=` operator is deprecated. Use `key := { x.value }` or `key ~= (old => { newValue })`.
+See http://www.scala-sbt.org/0.13/docs/Migrating-from-sbt-012x.html
+compile <<= (compile in Compile) dependsOn (updateSubmodules, compileExecutor)
+        ^
+/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/build.sbt:65: warning: `<<=` operator is deprecated. Use `key := { x.value }` or `key ~= (old => { newValue })`.
+See http://www.scala-sbt.org/0.13/docs/Migrating-from-sbt-012x.html
+scalaSource in Compile <<= baseDirectory(_ / "src/main")
+                       ^
+/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/build.sbt:66: warning: `<<=` operator is deprecated. Use `key := { x.value }` or `key ~= (old => { newValue })`.
+See http://www.scala-sbt.org/0.13/docs/Migrating-from-sbt-012x.html
+javaSource in Compile <<= baseDirectory(_ / "src/main")
+                      ^
+/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/build.sbt:69: warning: `<<=` operator is deprecated. Use `key := { x.value }` or `key ~= (old => { newValue })`.
+See http://www.scala-sbt.org/0.13/docs/Migrating-from-sbt-012x.html
+scalaSource in Test <<= baseDirectory(_ / "src/test")
+                    ^
+/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/build.sbt:70: warning: `<<=` operator is deprecated. Use `key := { x.value }` or `key ~= (old => { newValue })`.
+See http://www.scala-sbt.org/0.13/docs/Migrating-from-sbt-012x.html
+javaSource in Test <<= baseDirectory(_ / "src/test")
+                   ^
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project/target/scala-2.10/sbt-0.13/classes...
+error: error while loading String, class file '/Library/Java/JavaVirtualMachines/openjdk-12.0.2.jdk/Contents/Home(java/lang/String.class)' is broken
+(class java.lang.NullPointerException/null)
+[info] Set current project to Lift (in build file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/)
+[info] Executing in batch mode. For better performance use sbt's shell
+Checking for git... [ok]
+Update git submodules
+Configure Executor
+Checking for cmake... [ok]
+Checking for g++... [ok]
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/target/scala-2.11/classes...
+ 44ccc7ee172be327ae93fc5150f422f8f4ce8c26 lib/ArithExpr (heads/master)
+-- Configuring done
+CMake Warning (dev):
+  Policy CMP0042 is not set: MACOSX_RPATH is enabled by default.  Run "cmake
+  --help-policy CMP0042" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+  MACOSX_RPATH is not specified for the following targets:
+
+   executor-jni
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+-- Build files have been written to: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Executor/build
+Build Executor
+Checking for g++... [ok]
+Checking for cmake... [ok]
+[100%] Built target executor-jni
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/resources/lib/libexecutor-jni.dylib
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/}root...
+[warn] Binary version (2.11) for dependency org.scala-lang#scala-reflect;2.11.8
+[warn] 	in lift#lift_2.12;1.0 differs from Scala binary version in project (2.12).
+[warn] Binary version (2.11) for dependency org.scala-lang#scala-compiler;2.11.8
+[warn] 	in lift#lift_2.12;1.0 differs from Scala binary version in project (2.12).
+[warn] Binary version (2.11) for dependency org.scala-lang#scala-library;2.11.8
+[warn] 	in lift#lift_2.12;1.0 differs from Scala binary version in project (2.12).
+[warn] Multiple dependencies with the same organization/name but different versions. To avoid conflict, pick one version:
+[warn]  * org.scala-lang:scala-library:(2.12.5, 2.11.8)
+[info] Resolving default#profiler_2.12;1.0 ...
+[warn] 	module not found: default#profiler_2.12;1.0
+[warn] ==== local: tried
+[warn]   /Users/hebe/.ivy2/local/default/profiler_2.12/1.0/ivys/ivy.xml
+[warn] ==== public: tried
+[warn]   https://repo1.maven.org/maven2/default/profiler_2.12/1.0/profiler_2.12-1.0.pom
+[warn] ==== local-preloaded-ivy: tried
+[warn]   /Users/hebe/.sbt/preloaded/default/profiler_2.12/1.0/ivys/ivy.xml
+[warn] ==== local-preloaded: tried
+[warn]   file:////Users/hebe/.sbt/preloaded/default/profiler_2.12/1.0/profiler_2.12-1.0.pom
+[info] Resolving jline#jline;2.14.5 ...
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn] 	::          UNRESOLVED DEPENDENCIES         ::
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn] 	:: default#profiler_2.12;1.0: not found
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn]
+[warn] 	Note: Unresolved dependencies path:
+[warn] 		default:profiler_2.12:1.0
+[warn] 		  +- lift:lift_2.12:1.0
+[warn] there was one deprecation warning; re-run with -deprecation for details
+[warn] one warning found
+sbt.ResolveException: unresolved dependency: default#profiler_2.12;1.0: not found
+	at sbt.IvyActions$.sbt$IvyActions$$resolve(IvyActions.scala:320)
+	at sbt.IvyActions$$anonfun$updateEither$1.apply(IvyActions.scala:191)
+	at sbt.IvyActions$$anonfun$updateEither$1.apply(IvyActions.scala:168)
+	at sbt.IvySbt$Module$$anonfun$withModule$1.apply(Ivy.scala:156)
+	at sbt.IvySbt$Module$$anonfun$withModule$1.apply(Ivy.scala:156)
+	at sbt.IvySbt$$anonfun$withIvy$1.apply(Ivy.scala:133)
+	at sbt.IvySbt.sbt$IvySbt$$action$1(Ivy.scala:57)
+	at sbt.IvySbt$$anon$4.call(Ivy.scala:65)
+	at xsbt.boot.Locks$GlobalLock.withChannel$1(Locks.scala:95)
+	at xsbt.boot.Locks$GlobalLock.xsbt$boot$Locks$GlobalLock$$withChannelRetries$1(Locks.scala:80)
+	at xsbt.boot.Locks$GlobalLock$$anonfun$withFileLock$1.apply(Locks.scala:99)
+	at xsbt.boot.Using$.withResource(Using.scala:10)
+	at xsbt.boot.Using$.apply(Using.scala:9)
+	at xsbt.boot.Locks$GlobalLock.ignoringDeadlockAvoided(Locks.scala:60)
+	at xsbt.boot.Locks$GlobalLock.withLock(Locks.scala:50)
+	at xsbt.boot.Locks$.apply0(Locks.scala:31)
+	at xsbt.boot.Locks$.apply(Locks.scala:28)
+	at sbt.IvySbt.withDefaultLogger(Ivy.scala:65)
+	at sbt.IvySbt.withIvy(Ivy.scala:128)
+	at sbt.IvySbt.withIvy(Ivy.scala:125)
+	at sbt.IvySbt$Module.withModule(Ivy.scala:156)
+	at sbt.IvyActions$.updateEither(IvyActions.scala:168)
+	at sbt.Classpaths$$anonfun$sbt$Classpaths$$work$1$1.apply(Defaults.scala:1555)
+	at sbt.Classpaths$$anonfun$sbt$Classpaths$$work$1$1.apply(Defaults.scala:1551)
+	at sbt.Classpaths$$anonfun$doWork$1$1$$anonfun$122.apply(Defaults.scala:1586)
+	at sbt.Classpaths$$anonfun$doWork$1$1$$anonfun$122.apply(Defaults.scala:1584)
+	at sbt.Tracked$$anonfun$lastOutput$1.apply(Tracked.scala:37)
+	at sbt.Classpaths$$anonfun$doWork$1$1.apply(Defaults.scala:1589)
+	at sbt.Classpaths$$anonfun$doWork$1$1.apply(Defaults.scala:1583)
+	at sbt.Tracked$$anonfun$inputChanged$1.apply(Tracked.scala:60)
+	at sbt.Classpaths$.cachedUpdate(Defaults.scala:1606)
+	at sbt.Classpaths$$anonfun$updateTask$1.apply(Defaults.scala:1533)
+	at sbt.Classpaths$$anonfun$updateTask$1.apply(Defaults.scala:1485)
+	at scala.Function1$$anonfun$compose$1.apply(Function1.scala:47)
+	at sbt.$tilde$greater$$anonfun$$u2219$1.apply(TypeFunctions.scala:40)
+	at sbt.std.Transform$$anon$4.work(System.scala:63)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:228)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:228)
+	at sbt.ErrorHandling$.wideConvert(ErrorHandling.scala:17)
+	at sbt.Execute.work(Execute.scala:237)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:228)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:228)
+	at sbt.ConcurrentRestrictions$$anon$4$$anonfun$1.apply(ConcurrentRestrictions.scala:159)
+	at sbt.CompletionService$$anon$2.call(CompletionService.scala:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+[error] (root/*:update) sbt.ResolveException: unresolved dependency: default#profiler_2.12;1.0: not found
+[error] Total time: 16 s, completed 24/10/2019, 4:41:56 AM
+You have new mail in /var/mail/hebe
+hebe@hebes-mbp:~/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift$ sbt compile
+[info] Loading global plugins from /Users/hebe/.sbt/0.13/plugins
+[info] Updating {file:/Users/hebe/.sbt/0.13/plugins/}global-plugins...
+Waiting for lock on /Users/hebe/.ivy2/.sbt.ivy.lock to be available...
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by sbt.ivyint.ErrorMessageAuthenticator$ (file:/Users/hebe/.sbt/boot/scala-2.10.7/org.scala-sbt/sbt/0.13.17/ivy-0.13.17.jar) to field java.net.Authenticator.theAuthenticator
+WARNING: Please consider reporting this to the maintainers of sbt.ivyint.ErrorMessageAuthenticator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[info] Resolving org.fusesource.jansi#jansi;1.4 ...
+[info] Done updating.
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/project
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/project/}lift-build...
+[info] Resolving org.fusesource.jansi#jansi;1.4 ...
+[info] Done updating.
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project/}profiler-build...
+Waiting for lock on /Users/hebe/.ivy2/.sbt.ivy.lock to be available...
+[info] Resolving org.fusesource.jansi#jansi;1.4 ...
+[info] Done updating.
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project/target/scala-2.10/sbt-0.13/classes...
+error: error while loading String, class file '/Library/Java/JavaVirtualMachines/openjdk-12.0.2.jdk/Contents/Home(java/lang/String.class)' is broken
+(class java.lang.NullPointerException/null)
+[info] Set current project to Lift (in build file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/)
+[info] Executing in batch mode. For better performance use sbt's shell
+Configure Executor
+Checking for cmake... [ok]
+Checking for g++... [ok]
+Checking for git... [ok]
+Update git submodules
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/}profiler...
+Waiting for lock on /Users/hebe/.ivy2/.sbt.ivy.lock to be available...
+ 44ccc7ee172be327ae93fc5150f422f8f4ce8c26 lib/ArithExpr (heads/master)
+-- Configuring done
+CMake Warning (dev):
+  Policy CMP0042 is not set: MACOSX_RPATH is enabled by default.  Run "cmake
+  --help-policy CMP0042" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+  MACOSX_RPATH is not specified for the following targets:
+
+   executor-jni
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+-- Build files have been written to: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Executor/build
+Build Executor
+Checking for g++... [ok]
+Checking for cmake... [ok]
+[100%] Built target executor-jni
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/resources/lib/libexecutor-jni.dylib
+[info] Resolving jline#jline;2.12.1 ...
+[info] Done updating.
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/}root...
+[info] Resolving org.scala-lang#scala-library;2.12.5 ...
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/target/scala-2.11/classes...
+[info] Resolving default#profiler_2.12;1.0 ...
+[warn] 	module not found: default#profiler_2.12;1.0
+[warn] ==== local: tried
+[warn]   /Users/hebe/.ivy2/local/default/profiler_2.12/1.0/ivys/ivy.xml
+[warn] ==== public: tried
+[warn]   https://repo1.maven.org/maven2/default/profiler_2.12/1.0/profiler_2.12-1.0.pom
+[warn] ==== local-preloaded-ivy: tried
+[warn]   /Users/hebe/.sbt/preloaded/default/profiler_2.12/1.0/ivys/ivy.xml
+[warn] ==== local-preloaded: tried
+[warn]   file:////Users/hebe/.sbt/preloaded/default/profiler_2.12/1.0/profiler_2.12-1.0.pom
+[info] Resolving jline#jline;2.14.5 ...
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn] 	::          UNRESOLVED DEPENDENCIES         ::
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn] 	:: default#profiler_2.12;1.0: not found
+[warn] 	::::::::::::::::::::::::::::::::::::::::::::::
+[warn]
+[warn] 	Note: Unresolved dependencies path:
+[warn] 		default:profiler_2.12:1.0
+[warn] 		  +- lift:lift_2.12:1.0
+[warn] there was one deprecation warning; re-run with -deprecation for details
+[warn] one warning found
+sbt.ResolveException: unresolved dependency: default#profiler_2.12;1.0: not found
+	at sbt.IvyActions$.sbt$IvyActions$$resolve(IvyActions.scala:320)
+	at sbt.IvyActions$$anonfun$updateEither$1.apply(IvyActions.scala:191)
+	at sbt.IvyActions$$anonfun$updateEither$1.apply(IvyActions.scala:168)
+	at sbt.IvySbt$Module$$anonfun$withModule$1.apply(Ivy.scala:156)
+	at sbt.IvySbt$Module$$anonfun$withModule$1.apply(Ivy.scala:156)
+	at sbt.IvySbt$$anonfun$withIvy$1.apply(Ivy.scala:133)
+	at sbt.IvySbt.sbt$IvySbt$$action$1(Ivy.scala:57)
+	at sbt.IvySbt$$anon$4.call(Ivy.scala:65)
+	at xsbt.boot.Locks$GlobalLock.withChannel$1(Locks.scala:95)
+	at xsbt.boot.Locks$GlobalLock.xsbt$boot$Locks$GlobalLock$$withChannelRetries$1(Locks.scala:80)
+	at xsbt.boot.Locks$GlobalLock$$anonfun$withFileLock$1.apply(Locks.scala:99)
+	at xsbt.boot.Using$.withResource(Using.scala:10)
+	at xsbt.boot.Using$.apply(Using.scala:9)
+	at xsbt.boot.Locks$GlobalLock.ignoringDeadlockAvoided(Locks.scala:60)
+	at xsbt.boot.Locks$GlobalLock.withLock(Locks.scala:50)
+	at xsbt.boot.Locks$.apply0(Locks.scala:31)
+	at xsbt.boot.Locks$.apply(Locks.scala:28)
+	at sbt.IvySbt.withDefaultLogger(Ivy.scala:65)
+	at sbt.IvySbt.withIvy(Ivy.scala:128)
+	at sbt.IvySbt.withIvy(Ivy.scala:125)
+	at sbt.IvySbt$Module.withModule(Ivy.scala:156)
+	at sbt.IvyActions$.updateEither(IvyActions.scala:168)
+	at sbt.Classpaths$$anonfun$sbt$Classpaths$$work$1$1.apply(Defaults.scala:1555)
+	at sbt.Classpaths$$anonfun$sbt$Classpaths$$work$1$1.apply(Defaults.scala:1551)
+	at sbt.Classpaths$$anonfun$doWork$1$1$$anonfun$122.apply(Defaults.scala:1586)
+	at sbt.Classpaths$$anonfun$doWork$1$1$$anonfun$122.apply(Defaults.scala:1584)
+	at sbt.Tracked$$anonfun$lastOutput$1.apply(Tracked.scala:37)
+	at sbt.Classpaths$$anonfun$doWork$1$1.apply(Defaults.scala:1589)
+	at sbt.Classpaths$$anonfun$doWork$1$1.apply(Defaults.scala:1583)
+	at sbt.Tracked$$anonfun$inputChanged$1.apply(Tracked.scala:60)
+	at sbt.Classpaths$.cachedUpdate(Defaults.scala:1606)
+	at sbt.Classpaths$$anonfun$updateTask$1.apply(Defaults.scala:1533)
+	at sbt.Classpaths$$anonfun$updateTask$1.apply(Defaults.scala:1485)
+	at scala.Function1$$anonfun$compose$1.apply(Function1.scala:47)
+	at sbt.$tilde$greater$$anonfun$$u2219$1.apply(TypeFunctions.scala:40)
+	at sbt.std.Transform$$anon$4.work(System.scala:63)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:228)
+	at sbt.Execute$$anonfun$submit$1$$anonfun$apply$1.apply(Execute.scala:228)
+	at sbt.ErrorHandling$.wideConvert(ErrorHandling.scala:17)
+	at sbt.Execute.work(Execute.scala:237)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:228)
+	at sbt.Execute$$anonfun$submit$1.apply(Execute.scala:228)
+	at sbt.ConcurrentRestrictions$$anon$4$$anonfun$1.apply(ConcurrentRestrictions.scala:159)
+	at sbt.CompletionService$$anon$2.call(CompletionService.scala:28)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:835)
+[error] (root/*:update) sbt.ResolveException: unresolved dependency: default#profiler_2.12;1.0: not found
+[error] Total time: 12 s, completed 24/10/2019, 4:57:40 AM
+You have new mail in /var/mail/hebe
+hebe@hebes-mbp:~/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift$ sbt compile
+[info] Loading global plugins from /Users/hebe/.sbt/0.13/plugins
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by sbt.ivyint.ErrorMessageAuthenticator$ (file:/Users/hebe/.sbt/boot/scala-2.10.7/org.scala-sbt/sbt/0.13.17/ivy-0.13.17.jar) to field java.net.Authenticator.theAuthenticator
+WARNING: Please consider reporting this to the maintainers of sbt.ivyint.ErrorMessageAuthenticator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/project
+error: error while loading String, class file '/Library/Java/JavaVirtualMachines/openjdk-12.0.2.jdk/Contents/Home(java/lang/String.class)' is broken
+(class java.lang.NullPointerException/null)
+[info] Loading project definition from /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/project/target/scala-2.10/sbt-0.13/classes...
+error: error while loading String, class file '/Library/Java/JavaVirtualMachines/openjdk-12.0.2.jdk/Contents/Home(java/lang/String.class)' is broken
+(class java.lang.NullPointerException/null)
+[info] Set current project to Lift (in build file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/)
+[info] Executing in batch mode. For better performance use sbt's shell
+Checking for git... [ok]
+Update git submodules
+Configure Executor
+Checking for cmake... [ok]
+Checking for g++... [info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/}profiler...
+[ok]
+[info] Resolving org.scala-lang.modules#scala-xml_2.12;1.0.6 ...
+ 44ccc7ee172be327ae93fc5150f422f8f4ce8c26 lib/ArithExpr (heads/master)
+-- Configuring done
+CMake Warning (dev):
+  Policy CMP0042 is not set: MACOSX_RPATH is enabled by default.  Run "cmake
+  --help-policy CMP0042" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+  MACOSX_RPATH is not specified for the following targets:
+
+   executor-jni
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done
+-- Build files have been written to: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Executor/build
+Build Executor
+Checking for g++... [ok]
+[info] Resolving org.scalamacros#paradise_2.12.5;2.1.0 ...
+[100%] Built target executor-jni
+[info] Resolving jline#jline;2.14.5 ...
+-- Install configuration: "Release"
+-- Installing: /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/resources/lib/libexecutor-jni.dylib
+[info] Done updating.
+[info] Updating {file:/Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/}root...
+[info] Resolving org.scala-lang#scala-library;2.12.5 ...
+[info] Compiling 1 Scala source to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/lib/Profiler/target/scala-2.12/classes...
+[info] Resolving jline#jline;2.14.5 ...
+[info] Done updating.
+[warn] there was one deprecation warning (since 2.12.0); re-run with -deprecation for details
+[warn] one warning found
+[info] Compiling 233 Scala sources and 15 Java sources to /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/target/scala-2.12/classes...
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/ExpressionFilter.scala:72: macro implementation not found: debug
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]         logger.debug(s"Not enough work-items in the grid (${global.numberOfWorkItems} - ${local.toString} ${global.toString})")
+[error]                     ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/ExpressionFilter.scala:111: macro implementation not found: warn
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]         logger.warn("Failed filtering NDRanges", t)
+[error]                    ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/HighLevelRewrite.scala:96: macro implementation not found: info
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]     logger.info(s"Settings:\n$settings")
+[error]                ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/HighLevelRewrite.scala:251: macro implementation not found: warn
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]           logger.warn("lambda has been filtered out - distance too long")
+[error]                      ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/ParameterRewrite.scala:254: macro implementation not found: error
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]         logger.error("IOException", io)
+[error]                     ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/exploration/ParametersAndSettings.scala:584: macro implementation not found: error
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]             logger.error("Failed parsing settings " +
+[error]                         ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/opencl/generator/OpenCLGenerator.scala:175: macro implementation not found: macroTransform
+[error] (the most common reason for that is that you cannot use macro implementations in the same compilation run that defines them)
+[error]   @Profile
+[error]    ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/utils/OutputKernelJSON.scala:9: object parsing is not a member of package util
+[error] import scala.util.parsing.json._
+[error]                   ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/utils/OutputKernelJSON.scala:131: not found: type JSONObject
+[error]     var lm = ListMap[String,JSONObject]()
+[error]                             ^
+[error] /Users/hebe/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift/src/main/utils/OutputKernelJSON.scala:156: not found: value JSONObject
+[error]     JSONObject(lm).toString()
+[error]     ^
+[error] 10 errors found
+[error] (root/compile:compileIncremental) Compilation failed
+[error] Total time: 50 s, completed 24/10/2019, 5:03:25 AM
+You have new mail in /var/mail/hebe
+hebe@hebes-mbp:~/Dropbox/Yale-NUS/Yr4/capstone/forrealsies/lift$

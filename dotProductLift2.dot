@@ -1,0 +1,115 @@
+digraph{
+ratio="compress"
+size=8
+margin="0.0,0.0"
+n12470596771 [style=rounded,shape=box,label=<<b>Param</b>>]
+n9538480341 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n9346136551 [style=rounded,shape=box,label=<<b>Lambda2</b>>]
+n416416701 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+n6251836391 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+subgraph {
+rank="same"
+n1925835871 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n16567854561 [style=rounded,shape=box,label=<<b>Split</b>(1024)>]
+}
+subgraph {
+rank="same"
+n9093724711 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n3691143741 [style=rounded,shape=box,label=<<b>Zip</b>>]
+}
+n14607767931 [style=rounded,shape=box,label=<<b>MapWrg</b>>]
+n7989764041 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n2060015721 [style=rounded,shape=box,label=<<b>Lambda1</b>>]
+n9840262981 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+n6396294321 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+subgraph {
+rank="same"
+n8451494491 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n6045965601 [style=rounded,shape=box,label=<<b>Split</b>(4)>]
+}
+n4144419791 [style=rounded,shape=box,label=<<b>MapLcl</b>>]
+n1037418861 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n10520286781 [style=rounded,shape=box,label=<<b>Lambda1</b>>]
+n19339581361 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+n14191605411 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n15310827501 [style=rounded,shape=box,label=<<b>Value</b>(0.0f)<BR/>>]
+n14371656971 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n6431549321 [style=rounded,shape=box,label=<<b>MapSeq</b>>]
+n17596574241 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n3848079781 [style=rounded,shape=box,label=<<b>Lambda1</b>>]
+n3757374851 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+subgraph {
+rank="same"
+n4722209101 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n16694102821 [style=rounded,shape=box,label=<<b>Get</b>(0)>]
+}
+subgraph {
+rank="same"
+n12431851031 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n8183873641 [style=rounded,shape=box,label=<<b>Get</b>(1)>]
+}
+n11952427671 [style=rounded,shape=box,label=<<b>UserFun</b>(mult)>]
+n15354464191 [style=rounded,shape=box,label=<<b>ReduceSeq</b>>]
+n7114151661 [style=rounded,shape=box,label=<<b>UserFun</b>(add)>]
+n6318077761 [style=rounded,shape=box,label=<<b>toGlobal</b>>]
+n16539992781 [style=rounded,shape=box,label=<<b>MapSeq</b>>]
+n18555896651 [style=rounded,shape=box,label=<<b>UserFun</b>(id)>]
+n23145701 [style=rounded,shape=box,label=<<b>Join</b>>]
+n23145702 [style=rounded,shape=box,label=<<b>Join</b>>]
+n9346136551 -> n12470596771 [label="param_0"];
+n9346136551 -> n9538480341 [label="param_1"];
+n9346136551 -> n416416701 [label="body"];
+n416416701 -> n6251836391 [label="arg_0"];
+n6251836391 -> n1925835871 [label="arg_0"];
+n1925835871 -> n9093724711 [label="arg_0"];
+n9093724711 -> n12470596771 [label="arg_0"];
+n9093724711 -> n9538480341 [label="arg_1"];
+n9093724711 -> n3691143741 [label="f"];
+n1925835871 -> n16567854561 [label="f"];
+n6251836391 -> n14607767931 [label="f"];
+n14607767931 -> n2060015721 [label="f"];
+n2060015721 -> n7989764041 [label="param_0"];
+n2060015721 -> n9840262981 [label="body"];
+n9840262981 -> n6396294321 [label="arg_0"];
+n6396294321 -> n8451494491 [label="arg_0"];
+n8451494491 -> n7989764041 [label="arg_0"];
+n8451494491 -> n6045965601 [label="f"];
+n6396294321 -> n4144419791 [label="f"];
+n4144419791 -> n10520286781 [label="f"];
+n10520286781 -> n1037418861 [label="param_0"];
+n10520286781 -> n19339581361 [label="body"];
+n19339581361 -> n14191605411 [label="arg_0"];
+n14191605411 -> n15310827501 [label="arg_0"];
+n14191605411 -> n14371656971 [label="arg_1"];
+n14371656971 -> n1037418861 [label="arg_0"];
+n14371656971 -> n6431549321 [label="f"];
+n6431549321 -> n3848079781 [label="f"];
+n3848079781 -> n17596574241 [label="param_0"];
+n3848079781 -> n3757374851 [label="body"];
+n3757374851 -> n4722209101 [label="arg_0"];
+n4722209101 -> n17596574241 [label="arg_0"];
+n4722209101 -> n16694102821 [label="f"];
+n3757374851 -> n12431851031 [label="arg_1"];
+n12431851031 -> n17596574241 [label="arg_0"];
+n12431851031 -> n8183873641 [label="f"];
+n3757374851 -> n11952427671 [label="f"];
+n14191605411 -> n15354464191 [label="f"];
+n15354464191 -> n7114151661 [label="f"];
+n19339581361 -> n6318077761 [label="f"];
+n6318077761 -> n16539992781 [label="f"];
+n16539992781 -> n18555896651 [label="f"];
+n9840262981 -> n23145701 [label="f"];
+n416416701 -> n23145702 [label="f"];
+}

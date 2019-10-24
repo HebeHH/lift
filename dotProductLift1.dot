@@ -1,0 +1,92 @@
+digraph{
+ratio="compress"
+size=8
+margin="0.0,0.0"
+n4250936311 [style=rounded,shape=box,label=<<b>Param</b>>]
+n4330374681 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n4989376511 [style=rounded,shape=box,label=<<b>Lambda2</b>>]
+n19649987901 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+n17229744961 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+subgraph {
+rank="same"
+n17304553701 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n6045965601 [style=rounded,shape=box,label=<<b>Split</b>(4)>]
+}
+subgraph {
+rank="same"
+n13255013091 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n3691143741 [style=rounded,shape=box,label=<<b>Zip</b>>]
+}
+n3213739621 [style=rounded,shape=box,label=<<b>MapGlb</b>>]
+n10383012351 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n14770400111 [style=rounded,shape=box,label=<<b>Lambda1</b>>]
+n18523988511 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+n11370401811 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n15310827501 [style=rounded,shape=box,label=<<b>Value</b>(0.0f)<BR/>>]
+n2663408141 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n8641706681 [style=rounded,shape=box,label=<<b>MapSeq</b>>]
+n5613536671 [style=rounded,shape=box,label=<<b>Param</b>>]
+subgraph {
+rank="same"
+n10636983521 [style=rounded,shape=box,label=<<b>Lambda1</b>>]
+n2699034031 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+}
+subgraph {
+rank="same"
+n5388830241 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n16694102821 [style=rounded,shape=box,label=<<b>Get</b>(0)>]
+}
+subgraph {
+rank="same"
+n1233511431 [style=rounded,shape=box,label=<<b>FunCall</b>>]
+n8183873641 [style=rounded,shape=box,label=<<b>Get</b>(1)>]
+}
+n11952427671 [style=rounded,shape=box,label=<<b>UserFun</b>(mult)>]
+n10790277251 [style=rounded,shape=box,label=<<b>ReduceSeq</b>>]
+n7114151661 [style=rounded,shape=box,label=<<b>UserFun</b>(add)>]
+n19459950461 [style=rounded,shape=box,label=<<b>toGlobal</b>>]
+n19784693671 [style=rounded,shape=box,label=<<b>MapSeq</b>>]
+n18555896651 [style=rounded,shape=box,label=<<b>UserFun</b>(id)>]
+n23145701 [style=rounded,shape=box,label=<<b>Join</b>>]
+n4989376511 -> n4250936311 [label="param_0"];
+n4989376511 -> n4330374681 [label="param_1"];
+n4989376511 -> n19649987901 [label="body"];
+n19649987901 -> n17229744961 [label="arg_0"];
+n17229744961 -> n17304553701 [label="arg_0"];
+n17304553701 -> n13255013091 [label="arg_0"];
+n13255013091 -> n4250936311 [label="arg_0"];
+n13255013091 -> n4330374681 [label="arg_1"];
+n13255013091 -> n3691143741 [label="f"];
+n17304553701 -> n6045965601 [label="f"];
+n17229744961 -> n3213739621 [label="f"];
+n3213739621 -> n14770400111 [label="f"];
+n14770400111 -> n10383012351 [label="param_0"];
+n14770400111 -> n18523988511 [label="body"];
+n18523988511 -> n11370401811 [label="arg_0"];
+n11370401811 -> n15310827501 [label="arg_0"];
+n11370401811 -> n2663408141 [label="arg_1"];
+n2663408141 -> n10383012351 [label="arg_0"];
+n2663408141 -> n8641706681 [label="f"];
+n8641706681 -> n10636983521 [label="f"];
+n10636983521 -> n5613536671 [label="param_0"];
+n10636983521 -> n2699034031 [label="body"];
+n2699034031 -> n5388830241 [label="arg_0"];
+n5388830241 -> n5613536671 [label="arg_0"];
+n5388830241 -> n16694102821 [label="f"];
+n2699034031 -> n1233511431 [label="arg_1"];
+n1233511431 -> n5613536671 [label="arg_0"];
+n1233511431 -> n8183873641 [label="f"];
+n2699034031 -> n11952427671 [label="f"];
+n11370401811 -> n10790277251 [label="f"];
+n10790277251 -> n7114151661 [label="f"];
+n18523988511 -> n19459950461 [label="f"];
+n19459950461 -> n19784693671 [label="f"];
+n19784693671 -> n18555896651 [label="f"];
+n19649987901 -> n23145701 [label="f"];
+}

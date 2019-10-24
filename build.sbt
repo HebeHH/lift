@@ -2,19 +2,36 @@ name := "Lift"
 
 version := "1.0"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.6"
+
+// Added this to get JavaFX regardless of Java issues
+val os = "mac" //or "linux" or "win"
+val javafxVersion = "12"
+val javafxModules = Seq(
+  "javafx-base",
+  "javafx-controls",
+  "javafx-fxml",
+  "javafx-graphics",
+  "javafx-swing"
+)
+
+libraryDependencies ++= javafxModules.map(mod => "org.openjfx" % mod % javafxVersion classifier os)
+
+// TODO: get a working java version checker that doesn't throw a strop at 12
 
 // Check Java version
-initialize := {
-  val _ = initialize.value // run the previous initialization
-  val minVersion = 8
-  val current  = sys.props("java.specification.version")
-  val regex = raw"1\.(\d+)".r
-  assert(current match {
-    case regex(v) if v.toInt >= minVersion => true
-    case _ => false
-  }, s"Unsupported JDK: java.specification.version $current. Require at least JDK version 1.$minVersion.")
-}
+//initialize := {
+//  val _ = initialize.value // run the previous initialization
+//  val minVersion = 8
+//  val current  = sys.props("java.specification.version")
+//  val regex8 = raw"1\.(\d+)".r
+//  val regex8over = raw"\s(\d+).".r
+//  assert(current match {
+//    case regex8(v) if v.toInt >= minVersion => true
+//    case regex8over(v) if v.toInt >= minVersion => true
+//    case _ => false
+//  }, s"Unsupported JDK: java.specification.version $current. Require at least JDK version 1.$minVersion.")
+//}
 
 compile <<= (compile in Compile) dependsOn (updateSubmodules, compileExecutor)
 
@@ -53,14 +70,14 @@ scalaSource in Test <<= baseDirectory(_ / "src/test")
 javaSource in Test <<= baseDirectory(_ / "src/test")
 
 // Scala libraries
-libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.11.8"
-libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.11.8"
-libraryDependencies += "org.scala-lang" % "scala-library" % "2.11.8"
+libraryDependencies += "org.scala-lang" % "scala-reflect" % "2.12.6"
+libraryDependencies += "org.scala-lang" % "scala-compiler" % "2.12.6"
+libraryDependencies += "org.scala-lang" % "scala-library" % "2.12.6"
 libraryDependencies += "com.typesafe.play" %% "play-json" % "2.7.3"
 
 //libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
 
-libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.11" % "1.0.4"
+libraryDependencies += "org.scala-lang.modules" % "scala-xml_2.12" % "1.0.4"
 
 libraryDependencies += "jline" % "jline" % "2.12.1"
 
@@ -77,6 +94,8 @@ libraryDependencies += "commons-cli" % "commons-cli" % "1.4"
 //libraryDependencies += "org.clapper" %% "argot" % "1.0.3"
 libraryDependencies += "com.github.scopt" %% "scopt" % "4.0.0-RC2"
 
+libraryDependencies += "io.spray" %%  "spray-json" % "1.3.4"
+
 // Logging
 libraryDependencies += "ch.qos.logback" %  "logback-classic" % "1.1.7"
 libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
@@ -86,6 +105,7 @@ libraryDependencies += "org.jfree" % "jfreesvg" % "2.0"
 
 // Time utilities
 libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "2.16.0"
+
 
 lazy val profiler = RootProject(file("lib/Profiler"))
 

@@ -11,7 +11,7 @@ import nn.conv.Conv
 import org.junit.Assert.assertEquals
 
 import scala.sys.process._
-import scala.util.parsing.json.JSON
+import play.api.libs.json._
 
 /**
   * Created by nm on 08/02/17.
@@ -106,7 +106,7 @@ package object cnn {
     val source = scala.io.Source.fromFile(jsonFilePath)
     val jsonString = source.getLines.mkString("\n")
     source.close()
-    val jsonMap: Option[Any] = JSON.parseFull(jsonString)
+    val jsonMap: Option[Any] = Some(Json.parse(jsonString))
     
     jsonMap match {
       case None => 
