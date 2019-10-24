@@ -3,6 +3,7 @@ skelcl.conf
 project/project/
 project/target/
 target/
+logs/
 scripts/compiled_scripts/
 lib/Executor/build
 src/main/resources/lib/libexecutor-jni.*
