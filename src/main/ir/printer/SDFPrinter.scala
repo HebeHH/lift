@@ -45,8 +45,10 @@ class SDFPrinter(w: Writer,
   var node_ctr = 0
   val nodesId : collection.mutable.Map[Int, Int] = collection.mutable.HashMap()
 
+  var json_str = ""
   def writeln(s: String): Unit = {
-    w.write(s+"\n")
+    json_str += s + "\n"
+//    w.write(s+"\n")
   }
 
   def getNodeId(n: Any): String = {
@@ -65,12 +67,18 @@ class SDFPrinter(w: Writer,
       case e: Expr => countParams(e)
     }
 
-    writeln("Nodes:")
+    val st = "{\n"+"\""+s"Nodes"+"\""+s" : ["
+    writeln(st)
     printNodes(node)
+    writeln("],\n")
     visited.clear() // start counting again to associate the right nodes with the right edges
 
-    writeln("\n\nEdges:")
+    writeln("\n"+"\""+s"Edges"+"\""+s" : [")
     printEdges(node, "", "")
+    writeln("]\n}")
+
+    json_str = json_str.replaceAll(",[ \t\r\n]+}", "}").replaceAll(",[ \t\r\n]+]", "]")
+    w.write(json_str)
 
     w.flush()
     w.close()
@@ -79,40 +87,36 @@ class SDFPrinter(w: Writer,
   def interrogateType(typ: Type, indents: Int) : String = {
     var info = ("    " * indents)
     typ match {
-      case ScalarType(name, size) => info += s"Scalar $name (size = $size)"
-      case VectorType(scalarT, len) => info += s"Vector (len = $len) {\n" + interrogateType(scalarT, indents + 1) +"\n"+("    " * indents)+"}"
-      case tup: TupleType=> {
-        info += s"Tuple ${tup.varList} {\n"
+      case ScalarType(name, size) => info += s"{ "+"\""+s"Type"+"\" : \""+s"scalar"+"\", \""+s"Kind"+"\" : \""+name+"\",\"Size\" : \""+s"$size"+"\" },"
+      case VectorType(scalarT, len) => info += s"{ "+"\""+s"Type"+"\" : \""+s"vector"+"\", \""+s"Kind"+"\""+s" : \n" + interrogateType(scalarT, indents + 1) +"\n "+"\""+s"Length"+"\""+s" :"+"\""+s"$len"+"\""+s" }," // s"Vector (len = $len) {\n" + interrogateType(scalarT, indents + 1) +"\n"+("    " * indents)+"},"
+      case tup: TupleType=>
+        info += s"{"+"\""+s"Type"+"\" : \""+s"tuple"+"\", \""+s"Kinds"+"\""+s" : [\n"
         for (t <- tup.elemsT) { info += interrogateType(t, indents + 1)}
-        info += ("    " * indents) + "}"
-      }
-      case arr: ArrayType =>  {
-        info += s"Array (len = "
-//        TODO: UNDERSTAND LENGTH BETTER
+        info += ("    " * indents) + "]},"
+      case arr: ArrayType =>
+        info += s"{"+"\""+s"Type"+"\" : \""+s"array"+"\", \""+s"Kind"+"\""+s" : \n${interrogateType(arr.elemT, indents + 1)}\n "+"\""+s"Length"+"\" : \""+s""
+        //        TODO: UNDERSTAND LENGTH BETTER
         if (!arr.hasFixedAllocatedSize) info += arr.sizeIndex.toString else info += "N"
-        info += ") {\n" + interrogateType(arr.elemT, indents + 1)
-        info += ("    " * indents) + "}"
-      }
-      case UndefType => info += "UndefType"
-      case NoType => info += "NoType"
+        info += ""+"\""+s"},"
+      case UndefType => info += s"{ "+"\""+s"Type"+"\" : \""+s"undef"+"\""+s" },"
+      case NoType => info += s"{ "+"\""+s"Type"+"\" : \""+s"notype"+"\""+s" },"
     }
     info + "\n"
   }
 
   def interrogateParam(para: Param, indents: Int): String = {
 
-    var info = ("    " * indents) + s"${getNodeId(para)} : ${para.getClass.getSimpleName} : Param "
+    var info = ("    " * indents) +"{\""+s"${getNodeId(para)},"+"\" : { "+"\""+s"Class"+"\" : \""+s"${para.getClass.getSimpleName},"+"\", \"Para\" :"
 
     para match {
-      case Value(value, typ) => info += s"Value ($value, $typ)"
-      case p: VectorParam => {
-        info += s"Vector (${p.n.evalInt}) {\n"
-        info += interrogateParam(p.p, indents + 1) + ("    " *  indents) + "}"
-      }
-      case _ => info += "Unknown"
+      case Value(value, typ) => info += "\""+s"Value"+"\""+", "+"\""+s"value"+"\" : \""+s"$value"+"\", \""+s"Type"+"\" : \""+s"$typ"+"\""+s","
+      case p: VectorParam =>
+        info += "\""+s"Vector"+"\""+s" , "+"\""+s"eint"+"\" : \""+s"${p.n.evalInt},"+"\""+s" , "+"\""+s"Type"+"\""+s" : \n"
+        info += interrogateParam(p.p, indents + 1) + ("    " *  indents)
+      case _ => info += ""+"\""+s"Unknown"+"\""+s","
     }
-    info += "{ \n"
-    info += interrogateType(para.t, indents + 1) + ("    " * indents) + "}"
+    info += "\"Kind\" : \n"
+    info += interrogateType(para.t, indents + 1) + "}},"
     info
   }
 
@@ -142,8 +146,8 @@ class SDFPrinter(w: Writer,
       case v: Value =>
         val number = if (numbering.contains(v)) numbering(v).toString else ""
 
-        writeln(nodeId + ": " + node.getClass.getSimpleName + " ("+v.value+")" +
-          (if (number != "")  number  else "") )
+        writeln("{\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \"Value\" : \""+v.value+"\"" +
+          (if (number != "")  ", \"Number"+"\" : \""+s"$number"+"\""  else "") + "}}, " )
 
       case p: Param =>
         writeln(interrogateParam(p, 0))
@@ -162,14 +166,16 @@ class SDFPrinter(w: Writer,
             l.params.foreach(p => printNodes(p))
             visited.put(fc, visited.getOrElse(fc, 0)+1)
 
-            writeln(nodeId+" "+node.getClass.getSimpleName)
+//            writeln(nodeId+" "+node.getClass.getSimpleName)
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
             writeNodeDef(fc)
             fc.args.foreach(printNodes)
             printNodes(fc.f)
 
             return
         }
-        writeln(nodeId+": "+node.getClass.getSimpleName)
+//        writeln(nodeId+": "+node.getClass.getSimpleName)
+        writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
         l.params.foreach(p => printNodes(p))
 
         printNodes(l.body)
@@ -177,23 +183,27 @@ class SDFPrinter(w: Writer,
       case p: Pattern =>
         p match {
           case fp: FPattern =>
-            writeln(nodeId+": "+node.getClass.getSimpleName)
+//            writeln(nodeId+": "+node.getClass.getSimpleName)
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
             printNodes(fp.f)
           case Split(chunkSize) =>
-            writeln(nodeId+": "+node.getClass.getSimpleName+s" (chunksize = $chunkSize)")
+//            writeln(nodeId+": "+node.getClass.getSimpleName+s" (chunksize = $chunkSize)")
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Chunksize"+"\" : \""+s"$chunkSize"+"\""+s"}},")
           case Slide(size, step) =>
-            writeln(nodeId+": "+node.getClass.getSimpleName + s" (size = $size, step = $step)")
+//            writeln(nodeId+": "+node.getClass.getSimpleName + s" (size = $size, step = $step)")
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"size"+"\" : \""+s"$size"+"\", \""+s"step"+"\""+s" :"+"\""+s"$step"+"\""+s"}},")
           case Get(i) =>
-            writeln(nodeId+": "+node.getClass.getSimpleName + s" ($i)")
+//            writeln(nodeId+": "+node.getClass.getSimpleName + s" ($i)")
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"s"+"\" : \""+s"$i"+"\""+s"}},")
           case t: Tuple =>
             writeln(nodeId+": "+t.n)
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${t.n},"+"\""+s"}},")
           case z: Zip =>
-            writeln(nodeId+": "+node.getClass.getSimpleName)
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
           case u: Unzip =>
-            writeln(nodeId+": Unzip")
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"Unzip"+"\""+s"}},")
           case  _ =>
-            writeln("It's an Unknown Pattern")
-            writeln(nodeId+": "+node.getClass.getSimpleName)
+            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Warning"+"\" : \""+s"True"+"\""+s"}},")
         }
 
       case uf: UserFun =>
@@ -204,7 +214,8 @@ class SDFPrinter(w: Writer,
           }
         }.map(x => "<BR/><i>" + x._2.toString + "*</i>").getOrElse("")
         val print = if (compressLambda) number else ""
-        writeln(nodeId+": UserFun : "+uf.name+print)
+//        writeln(nodeId+": UserFun : "+uf.name+print)
+        writeln("{\""+nodeId+"\" : { \"Class\" : \"UserFun\", \"Kind\" : \""+uf.name+"\"}},")
 
       case  _ =>
         writeln(nodeId+": Unknown :"+node.getClass.getSimpleName)
@@ -221,15 +232,17 @@ class SDFPrinter(w: Writer,
     val nodeId = getNodeId(node)
 
 
+
+
     node match {
       case fc: FunCall =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
         fc.args.zipWithIndex.foreach(p=> printEdges(p._1, nodeId, "arg_"+p._2))//, ",color=Red"))
         printEdges(fc.f, nodeId,"f")
       case p : Param =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
       case l: Lambda =>
         if (compressLambda)
           l.body match {
@@ -241,20 +254,20 @@ class SDFPrinter(w: Writer,
                 }
           }
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
         l.params.zipWithIndex.foreach(p => printEdges(p._1, nodeId, "param_"+p._2))
 
         printEdges(l.body, nodeId, "body")
 
       case z: Zip =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
       case Unzip() =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
       case p: Pattern =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
         p match {
           case fp: FPattern =>
             printEdges(fp.f, nodeId, "f")
@@ -262,7 +275,7 @@ class SDFPrinter(w: Writer,
         }
       case _ =>
         if (!parent.equals(""))
-          writeln (s"$parent -> $nodeId: $label ($attr)")
+          writeln(s"{"+"\""+s"Source"+"\" : \""+s"$parent"+"\", \""+s"Sink"+"\" : \""+s"$nodeId"+"\", \""+s"Label"+"\" : \""+s"$label"+"\", \""+s"Attr"+"\""+s": "+"\""+s"$attr"+"\""+s"},")
     }
   }
 
@@ -274,7 +287,7 @@ class SDFPrinter(w: Writer,
 
     if (ref+addrSpce + number != "") println("Missed extra information: "+ ref+addrSpce + number)
 
-    writeln(getNodeId(e) + ":" + e.getClass.getSimpleName)
+    writeln("{\"" + getNodeId(e) + "\":\"" + e.getClass.getSimpleName + "\"},")
   }
 
 

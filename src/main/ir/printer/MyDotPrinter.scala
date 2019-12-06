@@ -76,9 +76,7 @@ class MyDotPrinter(w: Writer,
     if (!(visited.contains(node) && !(node.isInstanceOf[FunDecl] || node.isInstanceOf[Value]))) {
       visited.put(node, visited.getOrElse(node, 0) + 1)
     }
-
     val nodeId = getNodeId(node)
-
 
     node match {
       case fc: FunCall =>
@@ -86,25 +84,7 @@ class MyDotPrinter(w: Writer,
           writeln (parent+" -> "+nodeId+" [label=\""+label+"\""+attr+"];")
         fc.args.zipWithIndex.foreach(p=> printEdges(p._1, nodeId, "arg_"+p._2))//, ",color=Red"))
         printEdges(fc.f, nodeId,"f")//, ",constraint=false")
-      //writeln(parent+"->"+getNodeId(fc.f)+"[color=red]")//style=\"invis\"]")
 
-      //        printEdges(fc.f, nodeId,"f", ",rank=same")
-
-
-
-      /*        writeln("edge [samehead=h]")
-              writeln (getNodeId(fc.args(0))+" -> "+getNodeId(fc.f)+ " [color=Red, constraint=false]")
-              writeln (nodeId + "->" + getNodeId(fc.f)+ " [dir=back,color=Red, constraint=false]")
-              writeln("edge [samehead=\"\"]")*/
-
-      // constraint = false makes sure the data flow edge do not influence the layout
-      /*writeln("edge [samehead=h]")
-      writeln (getNodeId(fc.args(0))+" -> "+getNodeId(fc)+ " [color=Red, constraint=false]")
-      writeln (getNodeId(fc.f) + "->" + getNodeId(fc)+ " [dir=back,color=Red, constraint=false]")
-      writeln("edge [samehead=\"\"]")
-
-      writeln (getNodeId(fc.f) + "->" + getNodeId(fc)+ " [color=Red, constraint=false]")
-*/
       case p : Param =>
         if (!parent.equals(""))
           writeln (parent+" -> "+nodeId+" [label=\""+label+"\""+attr+"];")
@@ -118,22 +98,11 @@ class MyDotPrinter(w: Writer,
                   return
                 }
           }
-        if (!parent.equals(""))
-          writeln (parent+" -> "+nodeId+" [label=\""+label+"\""+attr+"];")
-        l.params.zipWithIndex.foreach(p => printEdges(p._1, nodeId, "param_"+p._2))
+//        if (!parent.equals(""))
+//          writeln (parent+" -> "+nodeId+" [label=\""+label+"\""+attr+"];")
+//        l.params.zipWithIndex.foreach(p => printEdges(p._1, nodeId, "param_"+p._2))
 
-        /* subgraph step1 {
-                 style=filled;
-                 node [label="Compiler"] step1_Compiler;
-                 node [label="Maschine"] step1_Maschine;
-                 color=lightgrey;
-         }*/
-
-
-
-        printEdges(l.body, nodeId, "body")//, ",constraint=false")
-      //if (!parent.equals(""))
-      //  writeln(parent+"->"+getNodeId(l.body)+"[color=red]")//+"[style=\"invis\"]")
+        printEdges(l.body, nodeId, "body")
 
       case z: Zip =>
         if (!parent.equals(""))
@@ -220,24 +189,24 @@ class MyDotPrinter(w: Writer,
 
         l.body match {
           case fc: FunCall =>
-            if (compressLambda)
-              if (fc.args.length == l.params.length)
-                if (fc.args.zip(l.params).map(p => p._1 == p._2 && counters.getOrElse(p._2, 0) <= 2).forall(identity)) {
-                  printNodes(fc.f)
-                  return
-                }
-
-            l.params.foreach(p => printNodes(p))
-
-            visited.put(fc, visited.getOrElse(fc, 0)+1)
-
-            // put the lambda and its body in the same subgraph so that they are side by side
-            writeln("subgraph {")
-            writeln("rank=\"same\"")
-            writeln(nodeId+" [style=rounded,shape=box,label=<<b>"+node.getClass.getSimpleName+"</b>>]")
-            writeNodeDef(fc)
-            //writeln(getNodeId(fc)+" [style=rounded,shape=box,label=<<b>"+fc.getClass.getSimpleName+"</b>"+ {if (printAddressSpace) {"("+fc.addressSpaces+")"} else ""} +">]")
-            writeln("}")
+//            if (compressLambda)
+//              if (fc.args.length == l.params.length)
+//                if (fc.args.zip(l.params).map(p => p._1 == p._2 && counters.getOrElse(p._2, 0) <= 2).forall(identity)) {
+//                  printNodes(fc.f)
+//                  return
+//                }
+//
+//            l.params.foreach(p => printNodes(p))
+//
+//            visited.put(fc, visited.getOrElse(fc, 0)+1)
+//
+//            // put the lambda and its body in the same subgraph so that they are side by side
+//            writeln("subgraph {")
+//            writeln("rank=\"same\"")
+//            writeln(nodeId+" [style=rounded,shape=box,label=<<b>"+node.getClass.getSimpleName+"</b>>]")
+//            writeNodeDef(fc)
+//            //writeln(getNodeId(fc)+" [style=rounded,shape=box,label=<<b>"+fc.getClass.getSimpleName+"</b>"+ {if (printAddressSpace) {"("+fc.addressSpaces+")"} else ""} +">]")
+//            writeln("}")
 
             fc.args.foreach(printNodes)
             printNodes(fc.f)

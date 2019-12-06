@@ -101,11 +101,15 @@ object PrinterRunner {
 
 
   def main(args: Array[String]): Unit = {
-    SDFPrinter("./", "dotprod", dotprod)
-    SDFPrinter("./", "gemvn", gemvn)
-    SDFPrinter("./", "mvasmm", mvasmm)
-    SDFPrinter("./", "myriqCompQ", myriqCompQ)
-    DotPrinter("./", "mvasmm", mvasmm)
-    DotPrinter("./", "myriqCompQ", myriqCompQ)
+    SDFPrinter("./", "dotprodjs", dotprod)
+    SDFPrinter("./", "gemvnjs", gemvn)
+    SDFPrinter("./", "mvasmmjs", mvasmm)
+    SDFPrinter("./", "myriqCompQjs", myriqCompQ)
+//    MyDotPrinter("./", "dotprod2", dotprod)
+//    MyDotPrinter("./", "gemvn2", gemvn)
+//    MyDotPrinter("./", "mvasmm2", mvasmm)
+//    MyDotPrinter("./", "myriqCompQ2", myriqCompQ)
+//    DotPrinter("./", "mvasmm", mvasmm)
+//    DotPrinter("./", "myriqCompQ", myriqCompQ)
   }
 }
