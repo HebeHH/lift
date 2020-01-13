@@ -67,10 +67,10 @@ class SDFPrinter(w: Writer,
       case e: Expr => countParams(e)
     }
 
-    val st = "{\n"+"\""+s"Nodes"+"\""+s" : ["
+    val st = "{\n"+"\""+s"Nodes"+"\""+s" : {"
     writeln(st)
     printNodes(node)
-    writeln("],\n")
+    writeln("},\n")
     visited.clear() // start counting again to associate the right nodes with the right edges
 
     writeln("\n"+"\""+s"Edges"+"\""+s" : [")
@@ -105,8 +105,9 @@ class SDFPrinter(w: Writer,
   }
 
   def interrogateParam(para: Param, indents: Int): String = {
+    var x = para.getClass.getSimpleName
 
-    var info = ("    " * indents) +"{\""+s"${getNodeId(para)},"+"\" : { "+"\""+s"Class"+"\" : \""+s"${para.getClass.getSimpleName},"+"\", \"Para\" :"
+    var info = ("    " * indents) +"\""+s"${getNodeId(para)}"+"\" : { "+"\""+s"Class"+"\" : \""+s"${para.getClass.getSimpleName}"+"\", \"Para\" :"
 
     para match {
       case Value(value, typ) => info += "\""+s"Value"+"\""+", "+"\""+s"value"+"\" : \""+s"$value"+"\", \""+s"Type"+"\" : \""+s"$typ"+"\""+s","
@@ -116,7 +117,7 @@ class SDFPrinter(w: Writer,
       case _ => info += ""+"\""+s"Unknown"+"\""+s","
     }
     info += "\"Kind\" : \n"
-    info += interrogateType(para.t, indents + 1) + "}},"
+    info += interrogateType(para.t, indents + 1) + "},"
     info
   }
 
@@ -146,8 +147,8 @@ class SDFPrinter(w: Writer,
       case v: Value =>
         val number = if (numbering.contains(v)) numbering(v).toString else ""
 
-        writeln("{\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \"Value\" : \""+v.value+"\"" +
-          (if (number != "")  ", \"Number"+"\" : \""+s"$number"+"\""  else "") + "}}, " )
+        writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \"Value\" : \""+v.value+"\"" +
+          (if (number != "")  ", \"Number"+"\" : \""+s"$number"+"\""  else "") + "}, " )
 
       case p: Param =>
         writeln(interrogateParam(p, 0))
@@ -167,7 +168,7 @@ class SDFPrinter(w: Writer,
             visited.put(fc, visited.getOrElse(fc, 0)+1)
 
 //            writeln(nodeId+" "+node.getClass.getSimpleName)
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"},")
             writeNodeDef(fc)
             fc.args.foreach(printNodes)
             printNodes(fc.f)
@@ -175,7 +176,7 @@ class SDFPrinter(w: Writer,
             return
         }
 //        writeln(nodeId+": "+node.getClass.getSimpleName)
-        writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
+        writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"},")
         l.params.foreach(p => printNodes(p))
 
         printNodes(l.body)
@@ -184,26 +185,26 @@ class SDFPrinter(w: Writer,
         p match {
           case fp: FPattern =>
 //            writeln(nodeId+": "+node.getClass.getSimpleName)
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"},")
             printNodes(fp.f)
           case Split(chunkSize) =>
 //            writeln(nodeId+": "+node.getClass.getSimpleName+s" (chunksize = $chunkSize)")
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Chunksize"+"\" : \""+s"$chunkSize"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Chunksize"+"\" : \""+s"$chunkSize"+"\"},")
           case Slide(size, step) =>
 //            writeln(nodeId+": "+node.getClass.getSimpleName + s" (size = $size, step = $step)")
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"size"+"\" : \""+s"$size"+"\", \""+s"step"+"\""+s" :"+"\""+s"$step"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"size"+"\" : \""+s"$size"+"\", \""+s"step"+"\""+s" :"+"\""+s"$step"+"\"},")
           case Get(i) =>
 //            writeln(nodeId+": "+node.getClass.getSimpleName + s" ($i)")
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"s"+"\" : \""+s"$i"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"s"+"\" : \""+s"$i"+"\"},")
           case t: Tuple =>
             writeln(nodeId+": "+t.n)
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${t.n},"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${t.n},"+"\""+s"},")
           case z: Zip =>
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\""+s"},")
           case u: Unzip =>
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"Unzip"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \"Unzip"+"\"},")
           case  _ =>
-            writeln(s"{"+"\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Warning"+"\" : \""+s"True"+"\""+s"}},")
+            writeln("\""+s"$nodeId"+"\" : { "+"\""+s"Class"+"\" : \""+s"${node.getClass.getSimpleName}"+"\", \""+s"Warning"+"\" : \"True\"},")
         }
 
       case uf: UserFun =>
@@ -215,10 +216,10 @@ class SDFPrinter(w: Writer,
         }.map(x => "<BR/><i>" + x._2.toString + "*</i>").getOrElse("")
         val print = if (compressLambda) number else ""
 //        writeln(nodeId+": UserFun : "+uf.name+print)
-        writeln("{\""+nodeId+"\" : { \"Class\" : \"UserFun\", \"Kind\" : \""+uf.name+"\"}},")
+        writeln("\""+nodeId+"\" : { \"Class\" : \"UserFun\", \"Kind\" : \""+uf.name+"\"},")
 
       case  _ =>
-        writeln(nodeId+": Unknown :"+node.getClass.getSimpleName)
+        writeln("\""+nodeId+"\" :  { \"Class\" : \"Unknown\" , \"Kind\" :\""+node.getClass.getSimpleName+"\"},")
     }
   }
 
@@ -279,7 +280,7 @@ class SDFPrinter(w: Writer,
     }
   }
 
-//  This writes either FunCalls or params
+//  This writes Funcalls
   def writeNodeDef(e: Expr): Unit = {
     val addrSpce = if (printAddressSpace) ":addrSpce("+e.addressSpace+")" else ""
     val number = if (numbering.contains(e)) "<BR/><i>" + numbering(e).toString + "</i>" else ""
@@ -287,7 +288,7 @@ class SDFPrinter(w: Writer,
 
     if (ref+addrSpce + number != "") println("Missed extra information: "+ ref+addrSpce + number)
 
-    writeln("{\"" + getNodeId(e) + "\":\"" + e.getClass.getSimpleName + "\"},")
+    writeln("\"" + getNodeId(e) + "\": {\"Class\":\"" + e.getClass.getSimpleName + "\"},")
   }
 
 
