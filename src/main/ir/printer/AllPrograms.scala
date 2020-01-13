@@ -18,8 +18,10 @@ val C = SizeVar("C")
 val xSize = SizeVar("X")
 val N = SizeVar("N")
 val F = SizeVar("F")
+
 val featuresType    = ArrayType(ArrayType(Float, P), F)
 val clustersType    = ArrayType(ArrayType(Float, F), C)
+
 val currentDistance = UserFun("currentDistance", Array("x", "y"),
     "{ return (x - y) * (x - y); }",
     Seq(Float, Float), Float)
@@ -210,6 +212,7 @@ val mdCompute = UserFun("updateF",
   """.stripMargin,
   Seq(Float4, Float4, Float4, Float, Float, Float),
   Float4)
+
 def mvAlpha = fun(
   ArrayType(ArrayType(Float, K), N),
   ArrayType(Float, K),
