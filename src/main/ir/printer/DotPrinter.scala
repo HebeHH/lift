@@ -39,16 +39,13 @@ class DotPrinter(w: Writer,
   lazy val visited : collection.mutable.Map[Any, Int] = collection.mutable.HashMap()
   lazy val counters : collection.mutable.Map[Param, Int]  = collection.mutable.HashMap()
 
-  val nodesId : collection.mutable.Map[IRNode, String] = collection.mutable.HashMap()
-
-
 
   def writeln(s: String): Unit = {
     w.write(s+"\n")
   }
 
   def getNodeId(n: Any) = {
-    "n"+Math.abs(n.hashCode()) + visited.get(n).get
+    "n"+Math.abs(n.hashCode()) + visited(n)
   }
 
   def print(node: IRNode): Unit = {
@@ -175,8 +172,9 @@ class DotPrinter(w: Writer,
 
   def printNodes(node: IRNode): Unit = {
 
-    if (visited.contains(node) && !(node.isInstanceOf[FunDecl] || node.isInstanceOf[Value]))
+    if (visited.contains(node) && !(node.isInstanceOf[FunDecl] || node.isInstanceOf[Value])) {
       return
+    }
     visited.put(node, visited.getOrElse(node, 0)+1)
 
     val nodeId = getNodeId(node)
