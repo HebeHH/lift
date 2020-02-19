@@ -8,7 +8,10 @@ fun(
   (A, B) => {
     Map(fun(aRow =>
       Map(fun(bCol =>
-        Reduce(add, 0.0f) o Map(fun(x => mult(Get(x, 0), Get(x, 1)))) $ Zip(aRow, bCol)
+        Reduce(add, 0.0f) o 
+        Map(fun(x => mult(Get(x, 0), 
+                          Get(x, 1)))) 
+        $ Zip(aRow, bCol)
       )) o Transpose() $ B
     )) $ A
   })
